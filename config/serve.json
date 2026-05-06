@@ -1,5 +1,4 @@
 {
   "port": 4321,
   "https": true,
-  "initialPage": "https://athentechdev.sharepoint.com/sites/Event-Manager/_layouts/15/workbench.aspx"
 }
