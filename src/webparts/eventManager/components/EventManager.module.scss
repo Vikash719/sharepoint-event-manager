@@ -8,6 +8,12 @@
   font-family: "Inter", "Segoe UI", Arial, sans-serif;
 }
 
+.container input,
+.container textarea,
+.container button {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
 .dashboard {
   max-width: 1180px;
   margin: 0 auto;
@@ -951,4 +957,242 @@
     width: 100%;
     max-width: 120px;
   }
+}
+
+/* ================= LIGHT THEME FINAL OVERRIDES ================= */
+
+.containerLight {
+  background:
+    linear-gradient(135deg, rgba(14, 165, 233, 0.12), transparent 36%),
+    linear-gradient(315deg, rgba(239, 68, 68, 0.1), transparent 36%),
+    #f6f9ff;
+  color: #0f172a;
+}
+
+.containerLight .dashboard,
+.containerLight .detailContainer {
+  color: #0f172a;
+}
+
+.containerLight .dashboardHeader h2,
+.containerLight .modalHeader h3,
+.containerLight .heroOverlay h1,
+.containerLight .emptyStateTitle,
+.containerLight .cardBody h3 {
+  color: #0f172a;
+}
+
+.containerLight .eyebrow {
+  color: #1d4ed8;
+}
+
+.containerLight .filterGroup label,
+.containerLight .fieldLabel {
+  color: #334155;
+}
+
+.containerLight .filters,
+.containerLight .card,
+.containerLight .emptyState,
+.containerLight .detailContent {
+  border-color: rgba(148, 163, 184, 0.32);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.1);
+}
+
+.containerLight .filterInput,
+.containerLight .input,
+.containerLight .textarea,
+.containerLight .modal .input,
+.containerLight .modal .textarea {
+  border-color: rgba(100, 116, 139, 0.36);
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.containerLight .filterInput:hover,
+.containerLight .input:hover,
+.containerLight .textarea:hover,
+.containerLight .modal .input:hover,
+.containerLight .modal .textarea:hover {
+  border-color: rgba(37, 99, 235, 0.5);
+  background: #ffffff;
+}
+
+.containerLight .filterInput:focus,
+.containerLight .input:focus,
+.containerLight .textarea:focus,
+.containerLight .pickerControl :global(.ms-TextField-fieldGroup:focus-within) {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.containerLight .filterInput::placeholder,
+.containerLight .input::placeholder,
+.containerLight .textarea::placeholder,
+.containerLight .modal .input::placeholder,
+.containerLight .modal .textarea::placeholder {
+  color: #64748b;
+}
+
+.containerLight .input[type="datetime-local"],
+.containerLight .input[type="date"] {
+  background-image: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.06),
+    rgba(239, 68, 68, 0.03)
+  );
+}
+
+.containerLight .input[type="datetime-local"]:hover,
+.containerLight .input[type="date"]:hover,
+.containerLight .input[type="datetime-local"]:focus,
+.containerLight .input[type="date"]:focus {
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(239, 68, 68, 0.04)),
+    #ffffff;
+}
+
+.containerLight .input[type="datetime-local"]::-webkit-datetime-edit-text,
+.containerLight .input[type="date"]::-webkit-datetime-edit-text {
+  color: #64748b;
+}
+
+.containerLight .input[type="datetime-local"]::-webkit-datetime-edit-month-field,
+.containerLight .input[type="datetime-local"]::-webkit-datetime-edit-day-field,
+.containerLight .input[type="datetime-local"]::-webkit-datetime-edit-year-field,
+.containerLight .input[type="datetime-local"]::-webkit-datetime-edit-hour-field,
+.containerLight .input[type="datetime-local"]::-webkit-datetime-edit-minute-field,
+.containerLight .input[type="date"]::-webkit-datetime-edit-month-field,
+.containerLight .input[type="date"]::-webkit-datetime-edit-day-field,
+.containerLight .input[type="date"]::-webkit-datetime-edit-year-field {
+  color: #0f172a;
+}
+
+.containerLight .input[type="file"]:hover {
+  background: #ffffff;
+}
+
+.containerLight .input[type="file"]::file-selector-button {
+  border-color: rgba(37, 99, 235, 0.24);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+}
+
+.containerLight .button,
+.containerLight .addButton,
+.containerLight .activePage {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.2);
+}
+
+.containerLight .deleteButton {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(239, 68, 68, 0.2);
+}
+
+.containerLight .clearButton,
+.containerLight .pageNumber {
+  border: 1px solid rgba(148, 163, 184, 0.36);
+  background: rgba(241, 245, 249, 0.95);
+  box-shadow: none;
+  color: #0f172a;
+}
+
+.containerLight .pageNumber:hover {
+  border-color: rgba(37, 99, 235, 0.42);
+  background: #ffffff;
+  color: #1d4ed8;
+}
+
+.containerLight .pageNumber.activePage {
+  border-color: #2563eb;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+}
+
+.containerLight .pageNumber.activePage:hover {
+  border-color: #1d4ed8;
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  color: #ffffff;
+}
+
+.containerLight .cardBody p,
+.containerLight .emptyStateText,
+.containerLight .detailDescription,
+.containerLight .detailInfo,
+.containerLight .heroOverlay p {
+  color: #475569;
+}
+
+.containerLight .modalOverlay {
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.12), transparent 36%),
+    linear-gradient(315deg, rgba(239, 68, 68, 0.1), transparent 38%),
+    rgba(248, 250, 252, 0.9);
+}
+
+.containerLight .modal {
+  border-color: rgba(148, 163, 184, 0.34);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.8), transparent 38%),
+    rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 32px 80px rgba(15, 23, 42, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.containerLight .modal::before {
+  background:
+    linear-gradient(135deg, rgba(37, 99, 235, 0.12), transparent 42%),
+    linear-gradient(315deg, rgba(239, 68, 68, 0.1), transparent 46%);
+}
+
+.containerLight .closeButton {
+  border-color: rgba(148, 163, 184, 0.32);
+  background: rgba(241, 245, 249, 0.95);
+  color: #0f172a;
+}
+
+.containerLight .imagePreview {
+  border-color: rgba(148, 163, 184, 0.32);
+  background: #ffffff;
+}
+
+.containerLight .error {
+  border-color: rgba(220, 38, 38, 0.28);
+  background: rgba(254, 226, 226, 0.85);
+  color: #991b1b;
+}
+
+.containerLight .requiredMark {
+  color: #dc2626;
+}
+
+.containerLight .hero {
+  border-color: rgba(148, 163, 184, 0.32);
+  background: #e2e8f0;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.12);
+}
+
+.containerLight .heroOverlay {
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.96),
+    rgba(255, 255, 255, 0.72) 58%,
+    transparent
+  );
+}
+
+.containerLight .deleteConfirmBox {
+  border-color: rgba(239, 68, 68, 0.28);
+  background: rgba(254, 226, 226, 0.72);
+}
+
+.containerLight .deleteConfirmBox p {
+  color: #991b1b;
 }

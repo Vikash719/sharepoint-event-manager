@@ -21,85 +21,83 @@ const EventDetail: React.FC<Props> = ({
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.detailContainer}>
-        <button
-          className={`${styles.button} ${styles.backButton}`}
-          onClick={onBack}
-        >
-          &lt; Back
-        </button>
+    <div className={styles.detailContainer}>
+      <button
+        className={`${styles.button} ${styles.backButton}`}
+        onClick={onBack}
+      >
+        &lt; Back
+      </button>
 
-        <div className={styles.hero}>
-          <img
-            src={
-              event.imageUrl && event.imageUrl !== ""
-                ? event.imageUrl
-                : "https://images.unsplash.com/photo-1505373877841-8d25f7d46678"
-            }
-            alt={event.title}
-          />
+      <div className={styles.hero}>
+        <img
+          src={
+            event.imageUrl && event.imageUrl !== ""
+              ? event.imageUrl
+              : "https://images.unsplash.com/photo-1505373877841-8d25f7d46678"
+          }
+          alt={event.title}
+        />
 
-          <div className={styles.heroOverlay}>
-            <p className={styles.eyebrow}>Event details</p>
-            <h1>{event.title}</h1>
-            <p>{new Date(event.dateTime).toLocaleString()}</p>
-          </div>
+        <div className={styles.heroOverlay}>
+          <p className={styles.eyebrow}>Event details</p>
+          <h1>{event.title}</h1>
+          <p>{new Date(event.dateTime).toLocaleString()}</p>
+        </div>
+      </div>
+
+      <div className={styles.detailContent}>
+        <p className={styles.detailDescription}>{event.description}</p>
+
+        <div className={styles.detailInfo}>
+          <p>
+            <strong>Location:</strong> {event.location}
+          </p>
         </div>
 
-        <div className={styles.detailContent}>
-          <p className={styles.detailDescription}>{event.description}</p>
+        <div className={styles.detailButtons}>
+          <button className={styles.button} onClick={() => setEdit(true)}>
+            Edit Event
+          </button>
 
-          <div className={styles.detailInfo}>
-            <p>
-              <strong>Location:</strong> {event.location}
-            </p>
-          </div>
+          <button
+            className={`${styles.button} ${styles.deleteButton}`}
+            onClick={() => setShowDeleteConfirm(true)}
+          >
+            Delete Event
+          </button>
+        </div>
 
-          <div className={styles.detailButtons}>
-            <button className={styles.button} onClick={() => setEdit(true)}>
-              Edit Event
-            </button>
+        {showDeleteConfirm && (
+          <div className={styles.deleteConfirmBox}>
+            <p>Are you sure you want to delete this event?</p>
 
-            <button
-              className={`${styles.button} ${styles.deleteButton}`}
-              onClick={() => setShowDeleteConfirm(true)}
-            >
-              Delete Event
-            </button>
-          </div>
+            <div className={styles.deleteConfirmActions}>
+              <button
+                className={`${styles.button} ${styles.deleteButton}`}
+                onClick={() => onDelete(event.id)}
+              >
+                Yes, Delete
+              </button>
 
-          {showDeleteConfirm && (
-            <div className={styles.deleteConfirmBox}>
-              <p>Are you sure you want to delete this event?</p>
-
-              <div className={styles.deleteConfirmActions}>
-                <button
-                  className={`${styles.button} ${styles.deleteButton}`}
-                  onClick={() => onDelete(event.id)}
-                >
-                  Yes, Delete
-                </button>
-
-                <button
-                  className={`${styles.button} ${styles.clearButton}`}
-                  onClick={() => setShowDeleteConfirm(false)}
-                >
-                  Cancel
-                </button>
-              </div>
+              <button
+                className={`${styles.button} ${styles.clearButton}`}
+                onClick={() => setShowDeleteConfirm(false)}
+              >
+                Cancel
+              </button>
             </div>
-          )}
-        </div>
-
-        {edit && (
-          <EventModal
-            existing={event}
-            onClose={() => setEdit(false)}
-            onSave={onUpdate}
-          />
+          </div>
         )}
       </div>
+
+      {edit && (
+        <EventModal
+          existing={event}
+          onClose={() => setEdit(false)}
+          onSave={onUpdate}
+        />
+      )}
     </div>
   );
 };

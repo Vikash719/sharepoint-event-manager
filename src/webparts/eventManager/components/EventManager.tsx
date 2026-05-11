@@ -3,6 +3,7 @@ import { IEventManagerProps } from "./IEventManagerProps";
 import { IEvent } from "./models/Event";
 import Dashboard from "./Dashboard";
 import EventDetail from "./EventDetail";
+import styles from "./EventManager.module.scss";
 
 import { SPFI, spfi, SPFx } from "@pnp/sp";
 
@@ -16,6 +17,23 @@ interface State {
   selected?: IEvent;
   loading: boolean;
   sp: SPFI;
+}
+
+interface ISharePointAttachment {
+  ServerRelativeUrl: string;
+}
+
+interface ISharePointEventItem {
+  ID: number;
+  Title?: string;
+  Description?: string;
+  EventDate: string;
+  Location?: string;
+  AttachmentFiles?: ISharePointAttachment[];
+}
+
+interface IAddResult {
+  ID: number;
 }
 
 export default class EventManager extends React.Component<
@@ -36,18 +54,18 @@ export default class EventManager extends React.Component<
   }
 
   public componentDidMount(): void {
-    void this.loadEvents();
+    this.loadEvents().catch(() => this.setState({ loading: false }));
   }
   private loadEvents = async (): Promise<void> => {
     try {
       this.setState({ loading: true });
 
-      const items = await this.state.sp.web.lists
+      const items = (await this.state.sp.web.lists
         .getByTitle("EventsNew")
         .items.select("ID", "Title", "Description", "EventDate", "Location")
-        .expand("AttachmentFiles")();
+        .expand("AttachmentFiles")()) as ISharePointEventItem[];
 
-      const events: IEvent[] = items.map((item: any) => ({
+      const events: IEvent[] = items.map((item) => ({
         id: item.ID,
         title: item.Title || "",
         description: item.Description || "",
@@ -72,14 +90,14 @@ export default class EventManager extends React.Component<
   // ================= ADD EVENT =================
   private addEvent = async (event: IEvent): Promise<void> => {
     try {
-      const addResult: any = await this.state.sp.web.lists
+      const addResult = (await this.state.sp.web.lists
         .getByTitle("EventsNew")
         .items.add({
           Title: event.title,
           Description: event.description,
           EventDate: new Date(event.dateTime),
           Location: event.location,
-        });
+        })) as IAddResult;
 
       if (event.imageFile) {
         await this.state.sp.web.lists
@@ -145,8 +163,13 @@ export default class EventManager extends React.Component<
   // ================= RENDER =================
 
   public render(): React.ReactElement<IEventManagerProps> {
+    const themeClass =
+      this.props.theme === "light"
+        ? `${styles.container} ${styles.containerLight}`
+        : styles.container;
+
     return (
-      <div>
+      <div className={themeClass}>
         {this.state.loading && <p>Loading...</p>}
 
         {!this.state.selected ? (
