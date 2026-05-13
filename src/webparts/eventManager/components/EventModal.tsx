@@ -9,9 +9,26 @@ interface Props {
   onClose: () => void;
   onSave: (e: IEvent) => void;
   existing?: IEvent;
+  defaultDateTime?: string;
 }
 
-const EventModal: React.FC<Props> = ({ onClose, onSave, existing }) => {
+const getFileNameFromUrl = (url: string): string => {
+  const cleanUrl = url.split("?")[0];
+  const fileName = cleanUrl.substring(cleanUrl.lastIndexOf("/") + 1);
+
+  try {
+    return decodeURIComponent(fileName);
+  } catch {
+    return fileName;
+  }
+};
+
+const EventModal: React.FC<Props> = ({
+  onClose,
+  onSave,
+  existing,
+  defaultDateTime,
+}) => {
   const [title, setTitle] = useState(existing?.title || "");
 
   const [desc, setDesc] = useState(existing?.description || "");
@@ -27,7 +44,7 @@ const EventModal: React.FC<Props> = ({ onClose, onSave, existing }) => {
   const [dateTime, setDateTime] = useState(
     existing?.dateTime
       ? new Date(existing.dateTime).toISOString().slice(0, 16)
-      : "",
+      : defaultDateTime || "",
   );
 
   const [location, setLocation] = useState(existing?.location || "");
@@ -41,6 +58,10 @@ const EventModal: React.FC<Props> = ({ onClose, onSave, existing }) => {
   const [saving, setSaving] = useState(false);
 
   const [error, setError] = useState("");
+  const existingImageName = existing?.imageUrl
+    ? getFileNameFromUrl(existing.imageUrl)
+    : "";
+  const imageText = file ? file.name : existingImageName || "No image selected";
 
   useEffect(() => {
     let objectUrl: string | undefined;
@@ -60,7 +81,11 @@ const EventModal: React.FC<Props> = ({ onClose, onSave, existing }) => {
   }, [file, existing?.imageUrl]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setFile(e.target.files ? e.target.files[0] : undefined);
+    setFile(
+      e.target.files && e.target.files.length > 0
+        ? e.target.files[0]
+        : undefined,
+    );
   };
 
   const save = async (): Promise<void> => {
@@ -164,12 +189,19 @@ const EventModal: React.FC<Props> = ({ onClose, onSave, existing }) => {
 
           <label className={styles.fieldLabel}>Image</label>
 
-          <input
-            className={styles.input}
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-          />
+          <div className={styles.filePickerRow}>
+            <label className={`${styles.button} ${styles.filePickerButton}`}>
+              Choose Image
+              <input
+                className={styles.hiddenFileInput}
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+              />
+            </label>
+
+            <span className={styles.filePickerText}>{imageText}</span>
+          </div>
 
           {previewUrl && (
             <div className={styles.imagePreview}>

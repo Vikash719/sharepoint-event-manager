@@ -1,8 +1,9 @@
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IEvent } from "./models/Event";
 import EventModal from "./EventModal";
 import styles from "./EventManager.module.scss";
+import { defaultEventImage } from "./defaultEventImage";
 
 interface Props {
   event: IEvent;
@@ -19,6 +20,42 @@ const EventDetail: React.FC<Props> = ({
 }) => {
   const [edit, setEdit] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const hasEventImage = !!event.imageUrl?.trim();
+  const imageSrc =
+    event.imageUrl && event.imageUrl !== "" ? event.imageUrl : defaultEventImage;
+  const [imageLoadFailed, setImageLoadFailed] = useState(false);
+  const [viewerImageSrc, setViewerImageSrc] = useState(imageSrc);
+  const [showImageViewer, setShowImageViewer] = useState(false);
+  const canViewImage = hasEventImage && !imageLoadFailed;
+
+  useEffect(() => {
+    setImageLoadFailed(false);
+    setViewerImageSrc(imageSrc);
+  }, [imageSrc]);
+
+  useEffect(() => {
+    if (!canViewImage) {
+      setShowImageViewer(false);
+    }
+  }, [canViewImage]);
+
+  useEffect(() => {
+    if (!showImageViewer) {
+      return;
+    }
+
+    const handleKeyDown = (e: KeyboardEvent): void => {
+      if (e.key === "Escape") {
+        setShowImageViewer(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showImageViewer]);
 
   return (
     <div className={styles.detailContainer}>
@@ -30,14 +67,29 @@ const EventDetail: React.FC<Props> = ({
       </button>
 
       <div className={styles.hero}>
-        <img
-          src={
-            event.imageUrl && event.imageUrl !== ""
-              ? event.imageUrl
-              : "https://images.unsplash.com/photo-1505373877841-8d25f7d46678"
-          }
-          alt={event.title}
-        />
+        <button
+          type="button"
+          className={styles.heroImageButton}
+          onClick={() => {
+            if (canViewImage) {
+              setShowImageViewer(true);
+            }
+          }}
+          disabled={!canViewImage}
+          aria-label={`View image for ${event.title}`}
+        >
+          <img
+            className={!canViewImage ? styles.placeholderImage : undefined}
+            src={viewerImageSrc}
+            alt={event.title}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.classList.add(styles.placeholderImage);
+              setImageLoadFailed(true);
+              setViewerImageSrc(defaultEventImage);
+            }}
+          />
+        </button>
 
         <div className={styles.heroOverlay}>
           <p className={styles.eyebrow}>Event details</p>
@@ -97,6 +149,47 @@ const EventDetail: React.FC<Props> = ({
           onClose={() => setEdit(false)}
           onSave={onUpdate}
         />
+      )}
+
+      {showImageViewer && (
+        <div
+          className={styles.imageViewerOverlay}
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Image preview for ${event.title}`}
+          onClick={() => setShowImageViewer(false)}
+        >
+          <div
+            className={styles.imageViewer}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              className={styles.imageViewerClose}
+              onClick={() => setShowImageViewer(false)}
+              aria-label="Close image preview"
+            >
+              X
+            </button>
+
+            <img
+              className={
+                viewerImageSrc === defaultEventImage
+                  ? styles.placeholderImage
+                  : undefined
+              }
+              src={viewerImageSrc}
+              alt={event.title}
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.classList.add(styles.placeholderImage);
+                setImageLoadFailed(true);
+                setViewerImageSrc(defaultEventImage);
+                setShowImageViewer(false);
+              }}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

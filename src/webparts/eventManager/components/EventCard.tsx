@@ -1,6 +1,7 @@
 import * as React from "react";
 import { IEvent } from "./models/Event";
 import styles from "./EventManager.module.scss";
+import { defaultEventImage } from "./defaultEventImage";
 
 interface Props {
   event: IEvent;
@@ -8,10 +9,9 @@ interface Props {
 }
 
 const EventCard: React.FC<Props> = ({ event, onClick }) => {
-  const defaultImage =
-    "https://images.unsplash.com/photo-1505373877841-8d25f7d46678";
+  const hasEventImage = !!event.imageUrl?.trim();
   const imageSrc =
-    event.imageUrl && event.imageUrl !== "" ? event.imageUrl : defaultImage;
+    event.imageUrl && event.imageUrl !== "" ? event.imageUrl : defaultEventImage;
 
   return (
     <article
@@ -26,11 +26,13 @@ const EventCard: React.FC<Props> = ({ event, onClick }) => {
       tabIndex={0}
     >
       <img
+        className={!hasEventImage ? styles.placeholderImage : undefined}
         src={imageSrc}
         alt={event.title}
         onError={(e) => {
           e.currentTarget.onerror = null;
-          e.currentTarget.src = defaultImage;
+          e.currentTarget.classList.add(styles.placeholderImage);
+          e.currentTarget.src = defaultEventImage;
         }}
       />
 

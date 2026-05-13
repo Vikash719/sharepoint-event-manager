@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IEventManagerProps } from "./IEventManagerProps";
 import { IEvent } from "./models/Event";
-import Dashboard from "./Dashboard";
+import Dashboard, { ViewMode, getDateKey } from "./Dashboard";
 import EventDetail from "./EventDetail";
 import styles from "./EventManager.module.scss";
 
@@ -17,6 +17,9 @@ interface State {
   selected?: IEvent;
   loading: boolean;
   sp: SPFI;
+  dashboardViewMode: ViewMode;
+  calendarMonth: Date;
+  selectedDateKey: string;
 }
 
 interface ISharePointAttachment {
@@ -50,6 +53,9 @@ export default class EventManager extends React.Component<
       selected: undefined,
       loading: false,
       sp,
+      dashboardViewMode: "grid",
+      calendarMonth: new Date(),
+      selectedDateKey: getDateKey(new Date()),
     };
   }
 
@@ -177,6 +183,18 @@ export default class EventManager extends React.Component<
             events={this.state.events}
             onAdd={this.addEvent}
             onSelect={(e) => this.setState({ selected: e })}
+            viewMode={this.state.dashboardViewMode}
+            onViewModeChange={(viewMode) =>
+              this.setState({ dashboardViewMode: viewMode })
+            }
+            calendarMonth={this.state.calendarMonth}
+            onCalendarMonthChange={(calendarMonth) =>
+              this.setState({ calendarMonth })
+            }
+            selectedDateKey={this.state.selectedDateKey}
+            onSelectedDateKeyChange={(selectedDateKey) =>
+              this.setState({ selectedDateKey })
+            }
           />
         ) : (
           <EventDetail
