@@ -53,7 +53,7 @@ export default class EventManager extends React.Component<
       selected: undefined,
       loading: false,
       sp,
-      dashboardViewMode: "grid",
+      dashboardViewMode: this.props.viewMode || "grid",
       calendarMonth: new Date(),
       selectedDateKey: getDateKey(new Date()),
     };
@@ -61,6 +61,13 @@ export default class EventManager extends React.Component<
 
   public componentDidMount(): void {
     this.loadEvents().catch(() => this.setState({ loading: false }));
+  }
+  public componentDidUpdate(prevProps: IEventManagerProps): void {
+    if (this.props.viewMode !== prevProps.viewMode) {
+      this.setState({
+        dashboardViewMode: this.props.viewMode || "grid",
+      });
+    }
   }
   private loadEvents = async (): Promise<void> => {
     try {
@@ -187,6 +194,13 @@ export default class EventManager extends React.Component<
             onViewModeChange={(viewMode) =>
               this.setState({ dashboardViewMode: viewMode })
             }
+            dashboardTitleColor={this.props.dashboardTitleColor}
+            eyebrowTextColor={this.props.eyebrowTextColor}
+            showSearch={this.props.showSearch}
+            cardBackgroundColor={this.props.cardBackgroundColor}
+            searchBarBackgroundColor={this.props.searchBarBackgroundColor}
+            cardFontColor={this.props.cardFontColor}
+            viewEventButtonColor={this.props.viewEventButtonColor}
             calendarMonth={this.state.calendarMonth}
             onCalendarMonthChange={(calendarMonth) =>
               this.setState({ calendarMonth })

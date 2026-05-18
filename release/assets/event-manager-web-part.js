@@ -113,7 +113,7 @@ var hasEventImage = function (event) {
     return !!((_a = event.imageUrl) === null || _a === void 0 ? void 0 : _a.trim());
 };
 var Dashboard = function (_a) {
-    var events = _a.events, onAdd = _a.onAdd, onSelect = _a.onSelect, viewMode = _a.viewMode, onViewModeChange = _a.onViewModeChange, calendarMonth = _a.calendarMonth, onCalendarMonthChange = _a.onCalendarMonthChange, selectedDateKey = _a.selectedDateKey, onSelectedDateKeyChange = _a.onSelectedDateKeyChange;
+    var events = _a.events, onAdd = _a.onAdd, onSelect = _a.onSelect, viewMode = _a.viewMode, onViewModeChange = _a.onViewModeChange, calendarMonth = _a.calendarMonth, onCalendarMonthChange = _a.onCalendarMonthChange, selectedDateKey = _a.selectedDateKey, onSelectedDateKeyChange = _a.onSelectedDateKeyChange, dashboardTitleColor = _a.dashboardTitleColor, eyebrowTextColor = _a.eyebrowTextColor, showSearch = _a.showSearch, cardBackgroundColor = _a.cardBackgroundColor, searchBarBackgroundColor = _a.searchBarBackgroundColor, cardFontColor = _a.cardFontColor, viewEventButtonColor = _a.viewEventButtonColor;
     var _b = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""), search = _b[0], setSearch = _b[1];
     var _c = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""), fromDate = _c[0], setFromDate = _c[1];
     var _d = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(""), toDate = _d[0], setToDate = _d[1];
@@ -204,10 +204,12 @@ var Dashboard = function (_a) {
     return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].dashboard },
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].dashboardHeader },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null,
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].eyebrow }, "Events"),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Event Dashboard")),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].eyebrow, style: eyebrowTextColor ? { color: eyebrowTextColor } : {} }, "Events"),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", { style: dashboardTitleColor ? { color: dashboardTitleColor } : {} }, "Event Dashboard")),
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { className: "".concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].button, " ").concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].addButton), onClick: function () { return openAddModal(); } }, "+ Add Event")),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].filters },
+        showSearch !== false && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].filters, style: searchBarBackgroundColor
+                ? { backgroundColor: searchBarBackgroundColor }
+                : {} },
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].filterGroup },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "Search"),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].filterInput, placeholder: "Search events...", value: search, onChange: function (e) { return setSearch(e.target.value); } })),
@@ -221,14 +223,11 @@ var Dashboard = function (_a) {
                     setSearch("");
                     setFromDate("");
                     setToDate("");
-                } }, "Clear")),
-        react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].viewSwitcher, "aria-label": "Event view" },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { type: "button", className: "".concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].viewSwitchButton, " ").concat(viewMode === "grid" ? _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].activeView : ""), onClick: function () { return onViewModeChange("grid"); } }, "Grid"),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { type: "button", className: "".concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].viewSwitchButton, " ").concat(viewMode === "calendar" ? _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].activeView : ""), onClick: function () { return onViewModeChange("calendar"); } }, "Calendar")),
+                } }, "Clear"))),
         viewMode === "grid" ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null,
             react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].grid }, paginatedEvents.length === 0 ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].emptyState },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].emptyStateTitle }, "No events found"),
-                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].emptyStateText }, "Try adjusting filters or add a new event"))) : (paginatedEvents.map(function (e) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_EventCard__WEBPACK_IMPORTED_MODULE_1__["default"], { key: e.id, event: e, onClick: onSelect })); }))),
+                react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].emptyStateText }, "Try adjusting filters or add a new event"))) : (paginatedEvents.map(function (e) { return (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_EventCard__WEBPACK_IMPORTED_MODULE_1__["default"], { key: e.id, event: e, onClick: onSelect, backgroundColor: cardBackgroundColor, fontColor: cardFontColor, buttonColor: viewEventButtonColor })); }))),
             totalPages > 1 && (react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].pagination },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { className: "".concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].button, " ").concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].paginationButton), onClick: handlePrevPage, disabled: currentPage === 1 }, "< Previous"),
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_4__["default"].pageNumbers }, (function () {
@@ -324,10 +323,10 @@ var Dashboard = function (_a) {
 
 var EventCard = function (_a) {
     var _b;
-    var event = _a.event, onClick = _a.onClick;
+    var event = _a.event, onClick = _a.onClick, backgroundColor = _a.backgroundColor, fontColor = _a.fontColor, buttonColor = _a.buttonColor;
     var hasEventImage = !!((_b = event.imageUrl) === null || _b === void 0 ? void 0 : _b.trim());
     var imageSrc = event.imageUrl && event.imageUrl !== "" ? event.imageUrl : _defaultEventImage__WEBPACK_IMPORTED_MODULE_2__.defaultEventImage;
-    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("article", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].card, onClick: function () { return onClick(event); }, onKeyDown: function (e) {
+    return (react__WEBPACK_IMPORTED_MODULE_0__.createElement("article", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].card, style: backgroundColor ? { backgroundColor: backgroundColor } : {}, onClick: function () { return onClick(event); }, onKeyDown: function (e) {
             if (e.key === "Enter" || e.key === " ") {
                 onClick(event);
             }
@@ -338,16 +337,16 @@ var EventCard = function (_a) {
                 e.currentTarget.src = _defaultEventImage__WEBPACK_IMPORTED_MODULE_2__.defaultEventImage;
             } }),
         react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", { className: _EventManager_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].cardBody },
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, event.title),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", { style: fontColor ? { color: fontColor } : {} }, event.title),
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", { style: fontColor ? { color: fontColor } : {} },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("strong", null, "When:"),
                 " ",
                 new Date(event.dateTime).toLocaleString()),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null,
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", { style: fontColor ? { color: fontColor } : {} },
                 react__WEBPACK_IMPORTED_MODULE_0__.createElement("strong", null, "Where:"),
                 " ",
                 event.location),
-            react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { className: "".concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].button, " ").concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].cardButton), type: "button", onClick: function (e) {
+            react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", { className: "".concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].button, " ").concat(_EventManager_module_scss__WEBPACK_IMPORTED_MODULE_1__["default"].cardButton), style: buttonColor ? { backgroundColor: buttonColor, backgroundImage: "none" } : {}, type: "button", onClick: function (e) {
                     e.stopPropagation();
                     onClick(event);
                 } }, "View Event"))));
@@ -692,7 +691,7 @@ var EventManager = /** @class */ (function (_super) {
             selected: undefined,
             loading: false,
             sp: sp,
-            dashboardViewMode: "grid",
+            dashboardViewMode: _this.props.viewMode || "grid",
             calendarMonth: new Date(),
             selectedDateKey: (0,_Dashboard__WEBPACK_IMPORTED_MODULE_1__.getDateKey)(new Date()),
         };
@@ -701,6 +700,13 @@ var EventManager = /** @class */ (function (_super) {
     EventManager.prototype.componentDidMount = function () {
         var _this = this;
         this.loadEvents().catch(function () { return _this.setState({ loading: false }); });
+    };
+    EventManager.prototype.componentDidUpdate = function (prevProps) {
+        if (this.props.viewMode !== prevProps.viewMode) {
+            this.setState({
+                dashboardViewMode: this.props.viewMode || "grid",
+            });
+        }
     };
     // ================= RENDER =================
     EventManager.prototype.render = function () {
@@ -712,7 +718,7 @@ var EventManager = /** @class */ (function (_super) {
             this.state.loading && react__WEBPACK_IMPORTED_MODULE_0__.createElement("p", null, "Loading..."),
             !this.state.selected ? (react__WEBPACK_IMPORTED_MODULE_0__.createElement(_Dashboard__WEBPACK_IMPORTED_MODULE_1__["default"], { events: this.state.events, onAdd: this.addEvent, onSelect: function (e) { return _this.setState({ selected: e }); }, viewMode: this.state.dashboardViewMode, onViewModeChange: function (viewMode) {
                     return _this.setState({ dashboardViewMode: viewMode });
-                }, calendarMonth: this.state.calendarMonth, onCalendarMonthChange: function (calendarMonth) {
+                }, dashboardTitleColor: this.props.dashboardTitleColor, eyebrowTextColor: this.props.eyebrowTextColor, showSearch: this.props.showSearch, cardBackgroundColor: this.props.cardBackgroundColor, searchBarBackgroundColor: this.props.searchBarBackgroundColor, cardFontColor: this.props.cardFontColor, viewEventButtonColor: this.props.viewEventButtonColor, calendarMonth: this.state.calendarMonth, onCalendarMonthChange: function (calendarMonth) {
                     return _this.setState({ calendarMonth: calendarMonth });
                 }, selectedDateKey: this.state.selectedDateKey, onSelectedDateKeyChange: function (selectedDateKey) {
                     return _this.setState({ selectedDateKey: selectedDateKey });
@@ -6879,6 +6885,14 @@ var EventManagerWebPart = /** @class */ (function (_super) {
             siteUrl: this.context.pageContext.web.absoluteUrl,
             context: this.context,
             theme: this.properties.theme || "dark",
+            viewMode: this.properties.viewMode || "grid",
+            dashboardTitleColor: this.properties.dashboardTitleColor,
+            eyebrowTextColor: this.properties.eyebrowTextColor,
+            showSearch: this.properties.showSearch !== false,
+            cardBackgroundColor: this.properties.cardBackgroundColor,
+            searchBarBackgroundColor: this.properties.searchBarBackgroundColor,
+            cardFontColor: this.properties.cardFontColor,
+            viewEventButtonColor: this.properties.viewEventButtonColor,
         });
         react_dom__WEBPACK_IMPORTED_MODULE_1__.render(element, this.domElement);
     };
@@ -6902,6 +6916,39 @@ var EventManagerWebPart = /** @class */ (function (_super) {
                                         { key: "dark", text: "Dark" },
                                         { key: "light", text: "Light" },
                                     ],
+                                }),
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneDropdown)("viewMode", {
+                                    label: "Default View Mode",
+                                    options: [
+                                        { key: "grid", text: "Grid" },
+                                        { key: "calendar", text: "Calendar" },
+                                    ],
+                                }),
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneToggle)("showSearch", {
+                                    label: "Show Search Bar",
+                                }),
+                            ],
+                        },
+                        {
+                            groupName: "Custom Colors",
+                            groupFields: [
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneTextField)("dashboardTitleColor", {
+                                    label: "Dashboard Title Color (e.g. #ffffff or rgba(...))",
+                                }),
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneTextField)("eyebrowTextColor", {
+                                    label: "Eyebrow Text Color",
+                                }),
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneTextField)("searchBarBackgroundColor", {
+                                    label: "Search Bar Background Color",
+                                }),
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneTextField)("cardBackgroundColor", {
+                                    label: "Card Background Color",
+                                }),
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneTextField)("cardFontColor", {
+                                    label: "Card Font Color",
+                                }),
+                                (0,_microsoft_sp_property_pane__WEBPACK_IMPORTED_MODULE_4__.PropertyPaneTextField)("viewEventButtonColor", {
+                                    label: "View Event Button Color",
                                 }),
                             ],
                         },

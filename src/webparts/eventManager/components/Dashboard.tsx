@@ -20,6 +20,13 @@ interface Props {
   onCalendarMonthChange: (date: Date) => void;
   selectedDateKey: string;
   onSelectedDateKeyChange: (dateKey: string) => void;
+  dashboardTitleColor?: string;
+  eyebrowTextColor?: string;
+  showSearch?: boolean;
+  cardBackgroundColor?: string;
+  searchBarBackgroundColor?: string;
+  cardFontColor?: string;
+  viewEventButtonColor?: string;
 }
 
 interface ICalendarDay {
@@ -83,6 +90,13 @@ const Dashboard: React.FC<Props> = ({
   onCalendarMonthChange,
   selectedDateKey,
   onSelectedDateKeyChange,
+  dashboardTitleColor,
+  eyebrowTextColor,
+  showSearch,
+  cardBackgroundColor,
+  searchBarBackgroundColor,
+  cardFontColor,
+  viewEventButtonColor,
 }) => {
   const [search, setSearch] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -212,8 +226,17 @@ const Dashboard: React.FC<Props> = ({
     <div className={styles.dashboard}>
       <div className={styles.dashboardHeader}>
         <div>
-          <p className={styles.eyebrow}>Events</p>
-          <h2>Event Dashboard</h2>
+          <p
+            className={styles.eyebrow}
+            style={eyebrowTextColor ? { color: eyebrowTextColor } : {}}
+          >
+            Events
+          </p>
+          <h2
+            style={dashboardTitleColor ? { color: dashboardTitleColor } : {}}
+          >
+            Event Dashboard
+          </h2>
         </div>
 
         <button
@@ -224,75 +247,63 @@ const Dashboard: React.FC<Props> = ({
         </button>
       </div>
 
-      <div className={styles.filters}>
-        <div className={styles.filterGroup}>
-          <label>Search</label>
-
-          <input
-            className={styles.filterInput}
-            placeholder="Search events..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-
-        <div className={styles.filterGroup}>
-          <label>From</label>
-
-          <input
-            type="date"
-            className={styles.input}
-            value={fromDate}
-            onChange={(e) => setFromDate(e.target.value)}
-            onClick={openPicker}
-          />
-        </div>
-
-        <div className={styles.filterGroup}>
-          <label>To</label>
-
-          <input
-            type="date"
-            className={styles.input}
-            value={toDate}
-            onChange={(e) => setToDate(e.target.value)}
-            onClick={openPicker}
-          />
-        </div>
-
-        <button
-          className={`${styles.button} ${styles.clearButton}`}
-          onClick={() => {
-            setSearch("");
-            setFromDate("");
-            setToDate("");
-          }}
+      {showSearch !== false && (
+        <div
+          className={styles.filters}
+          style={
+            searchBarBackgroundColor
+              ? { backgroundColor: searchBarBackgroundColor }
+              : {}
+          }
         >
-          Clear
-        </button>
-      </div>
+          <div className={styles.filterGroup}>
+            <label>Search</label>
 
-      <div className={styles.viewSwitcher} aria-label="Event view">
-        <button
-          type="button"
-          className={`${styles.viewSwitchButton} ${
-            viewMode === "grid" ? styles.activeView : ""
-          }`}
-          onClick={() => onViewModeChange("grid")}
-        >
-          Grid
-        </button>
+            <input
+              className={styles.filterInput}
+              placeholder="Search events..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </div>
 
-        <button
-          type="button"
-          className={`${styles.viewSwitchButton} ${
-            viewMode === "calendar" ? styles.activeView : ""
-          }`}
-          onClick={() => onViewModeChange("calendar")}
-        >
-          Calendar
-        </button>
-      </div>
+          <div className={styles.filterGroup}>
+            <label>From</label>
+
+            <input
+              type="date"
+              className={styles.input}
+              value={fromDate}
+              onChange={(e) => setFromDate(e.target.value)}
+              onClick={openPicker}
+            />
+          </div>
+
+          <div className={styles.filterGroup}>
+            <label>To</label>
+
+            <input
+              type="date"
+              className={styles.input}
+              value={toDate}
+              onChange={(e) => setToDate(e.target.value)}
+              onClick={openPicker}
+            />
+          </div>
+
+          <button
+            className={`${styles.button} ${styles.clearButton}`}
+            onClick={() => {
+              setSearch("");
+              setFromDate("");
+              setToDate("");
+            }}
+          >
+            Clear
+          </button>
+        </div>
+      )}
+
 
       {viewMode === "grid" ? (
         <React.Fragment>
@@ -307,7 +318,14 @@ const Dashboard: React.FC<Props> = ({
               </div>
             ) : (
               paginatedEvents.map((e) => (
-                <EventCard key={e.id} event={e} onClick={onSelect} />
+                <EventCard
+                  key={e.id}
+                  event={e}
+                  onClick={onSelect}
+                  backgroundColor={cardBackgroundColor}
+                  fontColor={cardFontColor}
+                  buttonColor={viewEventButtonColor}
+                />
               ))
             )}
           </div>
